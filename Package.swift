@@ -37,7 +37,13 @@ let package = Package(
             name: "RFC 3987 Foundation",
             dependencies: ["RFC 3987"]
             // Foundation extensions - depends on core
-        )
+        ),
+        .testTarget(
+            name: "RFC 3987 Tests",
+            dependencies: [
+                "RFC 3987",
+            ]
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
@@ -53,6 +59,7 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
+        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
         .enableExperimentalFeature("Lifetimes"),
         .enableExperimentalFeature("SuppressedAssociatedTypes"),
         .enableExperimentalFeature("SuppressedAssociatedTypesWithDefaults"),
