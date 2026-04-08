@@ -1,4 +1,4 @@
-import ASCII
+import ASCII_Serializer_Primitives
 
 /// RFC 3987: Internationalized Resource Identifiers (IRIs)
 ///

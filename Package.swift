@@ -22,14 +22,14 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../../swift-primitives/swift-binary-primitives"),
-        .package(path: "../../swift-foundations/swift-ascii")
+        .package(path: "../../swift-primitives/swift-ascii-serializer-primitives")
     ],
     targets: [
         .target(
             name: "RFC 3987",
             dependencies: [
                 .product(name: "Binary Primitives", package: "swift-binary-primitives"),
-                .product(name: "ASCII", package: "swift-ascii")
+                .product(name: "ASCII Serializer Primitives", package: "swift-ascii-serializer-primitives")
     ]
             // Core module - uses INCITS_4_1986 for ASCII validation, no Foundation
         ),

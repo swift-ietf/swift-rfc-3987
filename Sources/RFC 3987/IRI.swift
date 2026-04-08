@@ -1,4 +1,4 @@
-public import ASCII
+public import ASCII_Serializer_Primitives
 
 extension RFC_3987 {
     /// An Internationalized Resource Identifier (IRI) as defined in RFC 3987
