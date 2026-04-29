@@ -1,0 +1,10 @@
+# .github/metadata.yaml
+# Triaged by AI-assisted bulk pass (2026-04-29).
+description: "Swift implementation of RFC 3987: Internationalized Resource Identifiers (IRIs)."
+topics:
+  - standards
+  - rfc
+  - rfc-3987
+  - uri
+  - internationalization
+homepage: "https://swift-institute.org"
