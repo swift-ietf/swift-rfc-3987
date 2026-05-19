@@ -72,11 +72,11 @@ extension RFC_3987.IRI: Binary.ASCII.Serializable {
     ///
     /// Serialization (natural transformation):
     /// - **Domain**: RFC_3987.IRI (structured data)
-    /// - **Codomain**: [UInt8] (UTF-8 bytes)
+    /// - **Codomain**: [Byte] (UTF-8 bytes)
     public static func serialize<Buffer: RangeReplaceableCollection>(
         ascii iri: RFC_3987.IRI,
         into buffer: inout Buffer
-    ) where Buffer.Element == UInt8 {
+    ) where Buffer.Element == Byte {
         buffer.append(contentsOf: iri.value.utf8)
     }
 
@@ -85,7 +85,7 @@ extension RFC_3987.IRI: Binary.ASCII.Serializable {
     /// ## Category Theory
     ///
     /// Parsing transformation:
-    /// - **Domain**: [UInt8] (UTF-8 bytes)
+    /// - **Domain**: [Byte] (UTF-8 bytes)
     /// - **Codomain**: RFC_3987.IRI (structured data)
     ///
     /// ## Example
@@ -96,7 +96,7 @@ extension RFC_3987.IRI: Binary.ASCII.Serializable {
     public init<Bytes: Collection>(
         ascii bytes: Bytes,
         in context: Void = ()
-    ) throws(Error) where Bytes.Element == UInt8 {
+    ) throws(Error) where Bytes.Element == Byte {
         guard !bytes.isEmpty else {
             throw Error.empty
         }
