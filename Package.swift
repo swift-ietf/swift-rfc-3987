@@ -21,8 +21,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(path: "../../swift-primitives/swift-binary-primitives"),
-        .package(path: "../../swift-primitives/swift-ascii-serializer-primitives")
+        .package(url: "https://github.com/swift-primitives/swift-binary-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-ascii-serializer-primitives.git", branch: "main")
     ],
     targets: [
         .target(
