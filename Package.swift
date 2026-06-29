@@ -22,14 +22,16 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/swift-primitives/swift-binary-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-ascii-serializer-primitives.git", branch: "main")
+        .package(url: "https://github.com/swift-primitives/swift-ascii-serializer-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-ascii-parser-primitives.git", branch: "main")
     ],
     targets: [
         .target(
             name: "RFC 3987",
             dependencies: [
                 .product(name: "Binary Primitives", package: "swift-binary-primitives"),
-                .product(name: "ASCII Serializer Primitives", package: "swift-ascii-serializer-primitives")
+                .product(name: "ASCII Serializer Primitives", package: "swift-ascii-serializer-primitives"),
+                .product(name: "Parseable ASCII Primitives", package: "swift-ascii-parser-primitives")
     ]
             // Core module - uses INCITS_4_1986 for ASCII validation, no Foundation
         ),
@@ -42,6 +44,7 @@ let package = Package(
             name: "RFC 3987 Tests",
             dependencies: [
                 "RFC 3987",
+                "RFC 3987 Foundation",
             ]
         ),
     ],

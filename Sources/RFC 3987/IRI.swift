@@ -1,4 +1,6 @@
 public import ASCII_Serializer_Primitives
+public import Binary_Serializable_Primitives
+public import Parseable_ASCII_Primitives
 
 extension RFC_3987 {
     /// An Internationalized Resource Identifier (IRI) as defined in RFC 3987
@@ -63,23 +65,41 @@ extension RFC_3987 {
     }
 }
 
-// MARK: - Binary.ASCII.Serializable
+// MARK: - Serialization
 
-extension RFC_3987.IRI: Binary.ASCII.Serializable {
-    /// Serialize IRI to UTF-8 bytes
-    ///
-    /// ## Category Theory
-    ///
-    /// Serialization (natural transformation):
-    /// - **Domain**: RFC_3987.IRI (structured data)
-    /// - **Codomain**: [Byte] (UTF-8 bytes)
-    public static func serialize<Buffer: RangeReplaceableCollection>(
-        ascii iri: RFC_3987.IRI,
-        into buffer: inout Buffer
-    ) where Buffer.Element == Byte {
-        buffer.append(contentsOf: iri.value.utf8)
+extension RFC_3987.IRI: Swift.RawRepresentable, Serializable, ASCII.Serializable, Binary.Serializable {
+    /// The IRI's underlying string value — the `Swift.RawRepresentable` raw value.
+    public var rawValue: String {
+        value
     }
 
+    /// Creates an IRI by validating `rawValue`, or `nil` if it is not a valid RFC 3987 IRI.
+    ///
+    /// Re-provides the `Swift.RawRepresentable` requirement (previously inherited
+    /// from the retired combined ASCII serializable protocol).
+    public init?(rawValue: String) {
+        try? self.init(rawValue)
+    }
+
+    /// Serializes `value` as its UTF-8 bytes into `buffer`.
+    ///
+    /// Explicit `Binary.Serializable` witness: disambiguates the two
+    /// constraint-incomparable `serialize(_:into:)` defaults (the RawRepresentable
+    /// default vs the W0 ASCII bridge) — a conformer-declared member out-ranks both.
+    /// The bytes derive from the free `String`-RawRepresentable serializer
+    /// (`.serialized`); UTF-8 bytes (including non-ASCII IRI characters) are
+    /// preserved exactly.
+    public static func serialize<Buffer: RangeReplaceableCollection>(
+        _ value: Self,
+        into buffer: inout Buffer
+    ) where Buffer.Element == Byte {
+        buffer.append(contentsOf: value.serialized)
+    }
+}
+
+// MARK: - ASCII.Parseable
+
+extension RFC_3987.IRI: ASCII.Parseable {
     /// Parse IRI from UTF-8 bytes
     ///
     /// ## Category Theory
@@ -94,8 +114,7 @@ extension RFC_3987.IRI: Binary.ASCII.Serializable {
     /// let iri = try RFC_3987.IRI(ascii: "https://example.com".utf8)
     /// ```
     public init<Bytes: Collection>(
-        ascii bytes: Bytes,
-        in context: Void = ()
+        ascii bytes: Bytes
     ) throws(Error) where Bytes.Element == Byte {
         guard !bytes.isEmpty else {
             throw Error.empty
@@ -107,10 +126,6 @@ extension RFC_3987.IRI: Binary.ASCII.Serializable {
 }
 
 // MARK: - Protocol Conformances
-
-extension RFC_3987.IRI: Binary.ASCII.RawRepresentable {
-    public typealias RawValue = String
-}
 
 extension RFC_3987.IRI {
 
