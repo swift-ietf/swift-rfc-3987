@@ -67,7 +67,7 @@ extension RFC_3987 {
 
 // MARK: - Serialization
 
-extension RFC_3987.IRI: Swift.RawRepresentable, Serializable, ASCII.Serializable, Binary.Serializable {
+extension RFC_3987.IRI: Swift.RawRepresentable, ASCII.Serializable, Binary.Serializable {
     /// The IRI's underlying string value — the `Swift.RawRepresentable` raw value.
     public var rawValue: String {
         value
@@ -81,14 +81,25 @@ extension RFC_3987.IRI: Swift.RawRepresentable, Serializable, ASCII.Serializable
         try? self.init(rawValue)
     }
 
+    /// Serializes `value` as its UTF-8 bytes into an ASCII-code buffer ([FAM-012] verb).
+    ///
+    /// Own `ASCII.Serializable` verb — replaces the retired canonical-serializer
+    /// derivation, inlining exactly what the `String`-RawRepresentable serializer
+    /// produced. IRIs may include non-ASCII characters; the UTF-8 bytes are carried
+    /// on the ASCII-code substrate exactly as before (byte output preserved).
+    public static func serialize<Buffer: RangeReplaceableCollection>(
+        _ value: Self,
+        into buffer: inout Buffer
+    ) where Buffer.Element == ASCII.Code {
+        for byte in value.rawValue.utf8 {
+            buffer.append(ASCII.Code(byte))
+        }
+    }
+
     /// Serializes `value` as its UTF-8 bytes into `buffer`.
     ///
-    /// Explicit `Binary.Serializable` witness: disambiguates the two
-    /// constraint-incomparable `serialize(_:into:)` defaults (the RawRepresentable
-    /// default vs the W0 ASCII bridge) — a conformer-declared member out-ranks both.
-    /// The bytes derive from the free `String`-RawRepresentable serializer
-    /// (`.serialized`); UTF-8 bytes (including non-ASCII IRI characters) are
-    /// preserved exactly.
+    /// Explicit `Binary.Serializable` witness; the bytes derive from the
+    /// `ASCII.Serializable` verb above (`.serialized`).
     public static func serialize<Buffer: RangeReplaceableCollection>(
         _ value: Self,
         into buffer: inout Buffer
