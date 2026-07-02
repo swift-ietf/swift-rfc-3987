@@ -1,6 +1,6 @@
 # swift-rfc-3987
 
-[![CI](https://github.com/swift-standards/swift-rfc-3987/workflows/CI/badge.svg)](https://github.com/swift-standards/swift-rfc-3987/actions/workflows/ci.yml)
+[![CI](https://github.com/swift-ietf/swift-rfc-3987/workflows/CI/badge.svg)](https://github.com/swift-ietf/swift-rfc-3987/actions/workflows/ci.yml)
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
 Swift implementation of RFC 3987: Internationalized Resource Identifiers (IRIs)
@@ -27,7 +27,7 @@ This package provides a Swift implementation of IRIs (Internationalized Resource
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-web-standards/swift-rfc-3987", from: "0.1.0")
+    .package(url: "https://github.com/swift-ietf/swift-rfc-3987", from: "0.3.5")
 ]
 ```
 
@@ -130,7 +130,7 @@ For production use with strict compliance requirements, consider additional vali
 
 ## Related Packages
 
-- [swift-rfc-4287](https://github.com/swift-standards/swift-rfc-4287) - Swift types for RFC 4287 (Atom Syndication Format)
+- [swift-rfc-4287](https://github.com/swift-ietf/swift-rfc-4287) - Swift types for RFC 4287 (Atom Syndication Format)
 - [swift-atom](https://github.com/coenttb/swift-atom) - Atom feed generation and XML rendering
 
 ## Requirements
