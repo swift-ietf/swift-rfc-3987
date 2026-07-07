@@ -77,7 +77,8 @@ extension RFC_3987 {
         // Check for control characters (U+0000 to U+001F, U+007F-U+009F)
         for scalar in string.unicodeScalars {
             if (scalar.value >= 0x00 && scalar.value <= 0x1F)
-                || (scalar.value >= 0x7F && scalar.value <= 0x9F) {
+                || (scalar.value >= 0x7F && scalar.value <= 0x9F)
+            {
                 return false
             }
         }
