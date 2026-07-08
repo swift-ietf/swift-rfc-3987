@@ -5,14 +5,6 @@ extension URL {
     /// Errors that can occur during IRI to URL conversion
     public enum IRIConversionError: Error, CustomStringConvertible {
         case invalidIRI(String)
-
-        public var description: String {
-            switch self {
-            case .invalidIRI(let iri):
-                return
-                    "Failed to convert IRI to URL. The IRI '\(iri)' is malformed and could not be converted to a valid URL even after percent-encoding."
-            }
-        }
     }
 
     /// Creates a URL from an IRI by converting it to a URI representation
@@ -48,6 +40,16 @@ extension URL {
         }
 
         self = url
+    }
+}
+
+extension URL.IRIConversionError {
+    public var description: String {
+        switch self {
+        case .invalidIRI(let iri):
+            return
+                "Failed to convert IRI to URL. The IRI '\(iri)' is malformed and could not be converted to a valid URL even after percent-encoding."
+        }
     }
 }
 
