@@ -42,6 +42,13 @@ extension RFC_3987 {
     /// - Validates scheme format: ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
     /// - Rejects control characters (U+0000 to U+001F, U+007F-U+009F)
     /// - Rejects unencoded space characters
+    /// - Validates the authority, path, query, and fragment components against
+    ///   the RFC 3987 ABNF (Section 2.2): every character must be `iunreserved`
+    ///   (`ALPHA` / `DIGIT` / `"-"` / `"."` / `"_"` / `"~"` / `ucschar`),
+    ///   `sub-delims`, a well-formed `pct-encoded` (`"%" HEXDIG HEXDIG`) triplet,
+    ///   or one of the component's own structural separators (e.g. `":"` / `"@"`
+    ///   in authority and path, `"/"` / `"?"` in query and fragment). `iprivate`
+    ///   is additionally permitted in the query component only, per the grammar.
     ///
     /// - Note: For more comprehensive validation using Foundation's URL parser,
     ///   use the Foundation extensions which provide additional validation capabilities.
@@ -85,6 +92,74 @@ extension RFC_3987 {
 
         // Check for unencoded spaces
         if string.contains(" ") {
+            return false
+        }
+
+        // Validate the remaining components (authority, path, query, fragment)
+        // against the RFC 3987 ABNF character classes and percent-encoding rule.
+        //
+        //   ihier-part = "//" iauthority ipath-abempty
+        //              / ipath-absolute / ipath-rootless / ipath-empty
+        //   IRI        = scheme ":" ihier-part [ "?" iquery ] [ "#" ifragment ]
+        //
+        // Authority (userinfo/host/port) is validated as the union of the
+        // character classes its sub-components allow — this is a permissive
+        // over-approximation of `iauthority`'s finer IP-literal/IPv4/reg-name
+        // structure, not a full sub-parse of it.
+        var rest = string[string.index(after: colonIndex)...]
+
+        var authority: Substring?
+        if rest.hasPrefix("//") {
+            let afterSlashes = rest.dropFirst(2)
+            let authorityEnd =
+                afterSlashes.firstIndex(where: { $0 == "/" || $0 == "?" || $0 == "#" })
+                ?? afterSlashes.endIndex
+            authority = afterSlashes[afterSlashes.startIndex..<authorityEnd]
+            rest = afterSlashes[authorityEnd...]
+        }
+
+        let pathEnd = rest.firstIndex(where: { $0 == "?" || $0 == "#" }) ?? rest.endIndex
+        let path = rest[rest.startIndex..<pathEnd]
+        var afterPath = rest[pathEnd...]
+
+        var query: Substring?
+        if afterPath.first == "?" {
+            afterPath = afterPath.dropFirst()
+            let queryEnd = afterPath.firstIndex(of: "#") ?? afterPath.endIndex
+            query = afterPath[afterPath.startIndex..<queryEnd]
+            afterPath = afterPath[queryEnd...]
+        }
+
+        let fragment: Substring? = afterPath.first == "#" ? afterPath.dropFirst() : nil
+
+        if let authority,
+            !Grammar.validate(
+                authority,
+                allowing: {
+                    Grammar.isIUnreserved($0) || Grammar.isSubDelim($0)
+                        || $0 == ":" || $0 == "@" || $0 == "[" || $0 == "]"
+                }
+            )
+        {
+            return false
+        }
+
+        guard Grammar.validate(path, allowing: { Grammar.isIPChar($0) || $0 == "/" }) else {
+            return false
+        }
+
+        if let query,
+            !Grammar.validate(
+                query,
+                allowing: { Grammar.isIPChar($0) || Grammar.isIPrivate($0) || $0 == "/" || $0 == "?" }
+            )
+        {
+            return false
+        }
+
+        if let fragment,
+            !Grammar.validate(fragment, allowing: { Grammar.isIPChar($0) || $0 == "/" || $0 == "?" })
+        {
             return false
         }
 

@@ -47,17 +47,23 @@ extension RFC_3987 {
         ///
         /// ```swift
         /// let iri = try RFC_3987.IRI("https://example.com/寿司")
+        /// let strict = try RFC_3987.IRI("https://example.com/寿司", mode: .strict)
         /// ```
         ///
-        /// - Parameter value: The IRI string
-        /// - Throws: `Error.invalidIRI` if the string is not a valid IRI
+        /// - Parameters:
+        ///   - value: The IRI string
+        ///   - mode: Validation mode (lenient or strict). Default is `.lenient`,
+        ///     matching this initializer's prior (unparameterized) behavior — no
+        ///     existing caller's accepted-input set changes unless it opts in.
+        /// - Throws: `Error.invalidIRI` if the string is not a valid IRI under `mode`
         public init(
-            _ value: String
+            _ value: String,
+            mode: RFC_3987.ValidationMode = .lenient
         ) throws(Error) {
             guard !value.isEmpty else {
                 throw Error.empty
             }
-            guard RFC_3987.isValidIRI(value) else {
+            guard RFC_3987.isValidIRI(value, mode: mode) else {
                 throw Error.invalidIRI(value)
             }
             self.init(__unchecked: (), value: value)
