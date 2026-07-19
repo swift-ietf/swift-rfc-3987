@@ -65,6 +65,40 @@ extension RFC_3987 {
     }
 }
 
+// MARK: - Codable
+
+extension RFC_3987.IRI {
+    /// Decodes an IRI from a single-value JSON string, validating it via the
+    /// throwing initializer.
+    ///
+    /// The wire format is pinned explicitly here rather than left to whichever
+    /// derivation the compiler happens to pick (synthesized memberwise vs. the
+    /// standard library's `RawRepresentable`-conditional `Decodable` default):
+    /// a single string, never a keyed `{"value": ...}` object.
+    ///
+    /// - Throws: `DecodingError.dataCorrupted` if the decoded string is not a
+    ///   valid RFC 3987 IRI (mapped from `RFC_3987.IRI.Error`).
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let string = try container.decode(String.self)
+        do {
+            try self.init(string)
+        } catch {
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: error.description
+            )
+        }
+    }
+
+    /// Encodes the IRI as a single-value JSON string (its `value`), matching
+    /// the format `init(from:)` decodes.
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(value)
+    }
+}
+
 // MARK: - Serialization
 
 extension RFC_3987.IRI: Swift.RawRepresentable, ASCII.Serializable, Binary.Serializable {
