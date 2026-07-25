@@ -1,7 +1,7 @@
 # swift-rfc-3987
 
-[![CI](https://github.com/swift-ietf/swift-rfc-3987/workflows/CI/badge.svg)](https://github.com/swift-ietf/swift-rfc-3987/actions/workflows/ci.yml)
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
+[![CI](https://github.com/swift-ietf/swift-rfc-3987/workflows/CI/badge.svg)](https://github.com/swift-ietf/swift-rfc-3987/actions/workflows/ci.yml)
 
 Swift implementation of RFC 3987: Internationalized Resource Identifiers (IRIs)
 
