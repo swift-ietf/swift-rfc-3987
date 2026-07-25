@@ -1,0 +1,6 @@
+version: 1
+builder:
+  configs:
+  - documentation_targets:
+    - RFC 3987
+    - RFC 3987 Foundation
