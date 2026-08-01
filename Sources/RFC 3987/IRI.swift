@@ -164,7 +164,7 @@ extension RFC_3987.IRI: ASCII.Parseable {
     /// ```swift
     /// let iri = try RFC_3987.IRI(ascii: "https://example.com".utf8)
     /// ```
-    public init<Bytes: Collection>(
+    public init<Bytes: Swift.Collection>(
         ascii bytes: Bytes
     ) throws(Error) where Bytes.Element == Byte {
         guard !bytes.isEmpty else {
