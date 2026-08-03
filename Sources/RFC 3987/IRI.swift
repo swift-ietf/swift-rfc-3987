@@ -118,7 +118,11 @@ extension RFC_3987.IRI: Swift.RawRepresentable, ASCII.Serializable, Binary.Seria
     /// Re-provides the `Swift.RawRepresentable` requirement (previously inherited
     /// from the retired combined ASCII serializable protocol).
     public init?(rawValue: String) {
-        try? self.init(rawValue)
+        do throws(RFC_3987.IRI.Error) {
+            try self.init(rawValue)
+        } catch {
+            return nil
+        }
     }
 
     /// Serializes `value` as its UTF-8 bytes into an ASCII-code buffer ([FAM-012] verb).
