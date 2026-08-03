@@ -151,14 +151,19 @@ extension RFC_3987 {
         if let query,
             !Grammar.validate(
                 query,
-                allowing: { Grammar.isIPChar($0) || Grammar.isIPrivate($0) || $0 == "/" || $0 == "?" }
+                allowing: {
+                    Grammar.isIPChar($0) || Grammar.isIPrivate($0) || $0 == "/" || $0 == "?"
+                }
             )
         {
             return false
         }
 
         if let fragment,
-            !Grammar.validate(fragment, allowing: { Grammar.isIPChar($0) || $0 == "/" || $0 == "?" })
+            !Grammar.validate(
+                fragment,
+                allowing: { Grammar.isIPChar($0) || $0 == "/" || $0 == "?" }
+            )
         {
             return false
         }
