@@ -22,10 +22,13 @@ extension RFC_3987.IRI.Error: CustomStringConvertible {
         switch self {
         case .empty:
             return "IRI cannot be empty"
+
         case .invalidIRI(let value):
             return "Invalid IRI: '\(value)'"
+
         case .invalidURI(let value):
             return "Invalid URI: '\(value)'"
+
         case .conversionFailed(let value):
             return "Failed to convert IRI: '\(value)'"
         }

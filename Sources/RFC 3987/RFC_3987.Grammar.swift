@@ -43,6 +43,7 @@ extension RFC_3987 {
                 0xD_0000...0xD_FFFD,
                 0xE_1000...0xE_FFFD:
                 return true
+
             default:
                 return false
             }
@@ -57,6 +58,7 @@ extension RFC_3987 {
             switch scalar.value {
             case 0xE000...0xF8FF, 0xF_0000...0xF_FFFD, 0x10_0000...0x10_FFFD:
                 return true
+
             default:
                 return false
             }
@@ -78,6 +80,7 @@ extension RFC_3987 {
             switch scalar {
             case "!", "$", "&", "'", "(", ")", "*", "+", ",", ";", "=":
                 return true
+
             default:
                 return false
             }
