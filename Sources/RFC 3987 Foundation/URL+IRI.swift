@@ -262,7 +262,7 @@ extension RFC_3987 {
     ///
     /// - Note: This overload is available when importing the Foundation extensions.
     ///   For Foundation-free validation, use `isValidHTTP(_ string: String)`.
-    public static func isValidHTTP(_ iri: any IRI.Representable) -> Bool {
+    public static func isValidHTTP(_ iri: some IRI.Representable) -> Bool {
         guard let url = URL(string: iri.iriString) else { return false }
         return url.scheme == "http" || url.scheme == "https"
     }
