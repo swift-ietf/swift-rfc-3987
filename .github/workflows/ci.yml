@@ -4,10 +4,16 @@ on:
   push:
     branches:
       - main
+    tags:
+      - '*'
   pull_request:
     branches:
       - main
   workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -16,14 +22,8 @@ concurrency:
 jobs:
   ci:
     uses: swift-standards/.github/.github/workflows/swift-ci.yml@main
-    secrets:
-      PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
-      SWIFT_INSTITUTE_BOT_APP_CLIENT_ID: ${{ secrets.SWIFT_INSTITUTE_BOT_APP_CLIENT_ID }}
-      SWIFT_INSTITUTE_BOT_APP_ID: ${{ secrets.SWIFT_INSTITUTE_BOT_APP_ID }}
-      SWIFT_INSTITUTE_BOT_APP_PRIVATE_KEY: ${{ secrets.SWIFT_INSTITUTE_BOT_APP_PRIVATE_KEY }}
-
-  docs:
-    uses: swift-standards/.github/.github/workflows/swift-docs.yml@main
+    with:
+      integrated-docs: true
     secrets:
       PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
       SWIFT_INSTITUTE_BOT_APP_CLIENT_ID: ${{ secrets.SWIFT_INSTITUTE_BOT_APP_CLIENT_ID }}
