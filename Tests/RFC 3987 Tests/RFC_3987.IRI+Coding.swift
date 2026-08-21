@@ -1,8 +1,3 @@
-//
-//  RFC_3987.IRI+Coding.swift
-//  swift-rfc-3987
-//
-
 import Foundation
 import Testing
 

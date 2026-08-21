@@ -1,8 +1,3 @@
-//
-//  RFC_3987.IRI+Strict Validation.swift
-//  swift-rfc-3987
-//
-
 import Testing
 
 @testable import RFC_3987
@@ -48,8 +43,7 @@ extension RFC_3987.IRI.`Strict Validation`.Unit {
 
     @Test
     func `validating initializer still defaults to lenient mode`() throws {
-        // No `mode:` argument — must keep accepting inputs strict mode rejects,
-        // matching this initializer's behavior from before `mode` existed.
+
         let iri = try RFC_3987.IRI("https://example.com/hello world")
         #expect(iri.value == "https://example.com/hello world")
     }

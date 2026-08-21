@@ -151,9 +151,9 @@ struct `URL Conformance to IRI.Representable` {
 
     @Test
     func `URL with Unicode characters`() {
-        // Note: URL.absoluteString returns percent-encoded (URI) form, not IRI form
+
         let url = URL(string: "https://example.com/寿司")!
-        #expect(url.iriString.contains("%E5%AF%BF%E5%8F%B8"))  // percent-encoded "寿司"
+        #expect(url.iriString.contains("%E5%AF%BF%E5%8F%B8"))
     }
 
     @Test

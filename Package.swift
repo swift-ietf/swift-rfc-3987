@@ -48,12 +48,12 @@ let package = Package(
                     package: "swift-ascii-parser-primitives"
                 ),
             ]
-            // Core module - uses INCITS_4_1986 for ASCII validation, no Foundation
+
         ),
         .target(
             name: "RFC 3987 Foundation",
             dependencies: ["RFC 3987"]
-            // Foundation extensions - depends on core
+
         ),
         .testTarget(
             name: "RFC 3987 Tests",
