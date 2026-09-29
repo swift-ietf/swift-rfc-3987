@@ -22,31 +22,16 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-molecules/swift-binary.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-ascii-serializer.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-ascii-parser.git",
-            branch: "main"
-        ),
+            url: "https://github.com/swift-atoms/swift-binary.git",
+            branch: "main", traits: ["Serializer"]),
+        .package(url: "https://github.com/swift-atoms/swift-ascii.git", branch: "main", traits: ["Parser", "Serializer"]),
     ],
     targets: [
         .target(
             name: "RFC 3987",
             dependencies: [
                 .product(name: "Binary", package: "swift-binary"),
-                .product(
-                    name: "ASCII Serializer",
-                    package: "swift-ascii-serializer"
-                ),
-                .product(
-                    name: "Parseable ASCII",
-                    package: "swift-ascii-parser"
-                ),
+                .product(name: "ASCII", package: "swift-ascii"),
             ]
 
         ),
