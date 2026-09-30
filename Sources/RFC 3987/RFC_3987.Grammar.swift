@@ -64,11 +64,11 @@ extension RFC_3987 {
         }
 
         static func hasValidPercentEncoding(_ component: some StringProtocol) -> Bool {
-            var iterator = component.makeIterator()
-            while let character = iterator.next() {
-                guard character == "%" else { continue }
-                guard let first = iterator.next(), first.isHexDigit,
-                    let second = iterator.next(), second.isHexDigit
+            var iterator = component.unicodeScalars.makeIterator()
+            while let scalar = iterator.next() {
+                guard scalar == "%" else { continue }
+                guard let first = iterator.next(), first.properties.isASCIIHexDigit,
+                    let second = iterator.next(), second.properties.isASCIIHexDigit
                 else { return false }
             }
             return true
