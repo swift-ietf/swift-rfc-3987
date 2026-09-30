@@ -170,6 +170,7 @@ extension RFC_3987 {
 
     public static func isValidHTTP(_ iri: some IRI.Representable) -> Bool {
         guard let url = URL(string: iri.iriString) else { return false }
-        return url.scheme == "http" || url.scheme == "https"
+        let scheme = url.scheme?.lowercased()
+        return scheme == "http" || scheme == "https"
     }
 }
