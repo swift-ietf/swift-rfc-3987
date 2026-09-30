@@ -106,6 +106,8 @@ extension RFC_3987 {
     public static func isValidHTTP(_ string: String) -> Bool {
         guard isValidIRI(string) else { return false }
 
-        return string.hasPrefix("http:") || string.hasPrefix("https:")
+        guard let colon = string.firstIndex(of: ":") else { return false }
+        let scheme = string[..<colon].lowercased()
+        return scheme == "http" || scheme == "https"
     }
 }
