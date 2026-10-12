@@ -48,7 +48,7 @@ extension RFC_3987.IRI {
     }
 }
 
-extension RFC_3987.IRI: Swift.RawRepresentable, ASCII.Serializable, Binary.Serializable {
+extension RFC_3987.IRI: Swift::RawRepresentable, ASCII.Serializable, Binary.Serializable {
 
     public var rawValue: String {
         value
@@ -81,7 +81,7 @@ extension RFC_3987.IRI: Swift.RawRepresentable, ASCII.Serializable, Binary.Seria
 
 extension RFC_3987.IRI: ASCII.Parseable {
 
-    public init<Bytes: Swift.Collection>(
+    public init<Bytes: Swift::Collection>(
         ascii bytes: Bytes
     ) throws(Error) where Bytes.Element == Byte {
         guard !bytes.isEmpty else {

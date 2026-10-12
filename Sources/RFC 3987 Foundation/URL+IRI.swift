@@ -3,7 +3,7 @@ public import Foundation
 
 extension URL {
 
-    public enum IRIConversionError: Swift.Error, CustomStringConvertible {
+    public enum IRIConversionError: Swift::Error, CustomStringConvertible {
         case invalidIRI(String)
     }
 

@@ -19,7 +19,7 @@ struct `HTTP scheme case` {
 extension `HTTP scheme case` {
     @Test
     func `an IRI value with an upper-case HTTP scheme is recognized`() throws {
-        let iri = try RFC_3987.IRI("HTTPS://example.com/path")
+        let iri = RFC_3987.IRI("HTTPS://example.com/path")
         #expect(RFC_3987.isValidHTTP(iri))
     }
 }

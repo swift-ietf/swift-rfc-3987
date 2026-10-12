@@ -44,7 +44,7 @@ extension RFC_3987.IRI.`Strict Validation`.Unit {
     @Test
     func `validating initializer still defaults to lenient mode`() throws {
 
-        let iri = try RFC_3987.IRI("https://example.com/hello world")
+        let iri = RFC_3987.IRI("https://example.com/hello world")
         #expect(iri.value == "https://example.com/hello world")
     }
 }

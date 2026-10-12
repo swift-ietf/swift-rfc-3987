@@ -13,7 +13,7 @@ extension RFC_3987.IRI {
 extension RFC_3987.IRI.Coding.Unit {
     @Test
     func `round trips through JSON`() throws {
-        let original = try RFC_3987.IRI("https://example.com/寿司")
+        let original = RFC_3987.IRI("https://example.com/寿司")
         let data = try JSONEncoder().encode(original)
         let decoded = try JSONDecoder().decode(RFC_3987.IRI.self, from: data)
         #expect(decoded == original)
@@ -21,7 +21,7 @@ extension RFC_3987.IRI.Coding.Unit {
 
     @Test
     func `encodes as a JSON string, not a keyed object`() throws {
-        let iri = try RFC_3987.IRI("https://example.com/path")
+        let iri = RFC_3987.IRI("https://example.com/path")
         let data = try JSONEncoder().encode(iri)
         let jsonValue = try JSONSerialization.jsonObject(with: data, options: [.fragmentsAllowed])
         #expect(jsonValue is String)
