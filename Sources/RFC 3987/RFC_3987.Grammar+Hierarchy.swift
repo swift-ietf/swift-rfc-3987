@@ -40,10 +40,10 @@ extension RFC_3987.Grammar {
         let fragment: Substring? = afterPath.first == "#" ? afterPath.dropFirst() : nil
 
         if let authority,
-            !Grammar.validate(
+            !Self.validate(
                 authority,
                 allowing: {
-                    Grammar.isIUnreserved($0) || Grammar.isSubDelim($0)
+                    Self.isIUnreserved($0) || Self.isSubDelim($0)
                         || $0 == ":" || $0 == "@" || $0 == "[" || $0 == "]"
                 }
             )
@@ -51,15 +51,15 @@ extension RFC_3987.Grammar {
             return false
         }
 
-        guard Grammar.validate(path, allowing: { Grammar.isIPChar($0) || $0 == "/" }) else {
+        guard Self.validate(path, allowing: { Self.isIPChar($0) || $0 == "/" }) else {
             return false
         }
 
         if let query,
-            !Grammar.validate(
+            !Self.validate(
                 query,
                 allowing: {
-                    Grammar.isIPChar($0) || Grammar.isIPrivate($0) || $0 == "/" || $0 == "?"
+                    Self.isIPChar($0) || Self.isIPrivate($0) || $0 == "/" || $0 == "?"
                 }
             )
         {
@@ -67,9 +67,9 @@ extension RFC_3987.Grammar {
         }
 
         if let fragment,
-            !Grammar.validate(
+            !Self.validate(
                 fragment,
-                allowing: { Grammar.isIPChar($0) || $0 == "/" || $0 == "?" }
+                allowing: { Self.isIPChar($0) || $0 == "/" || $0 == "?" }
             )
         {
             return false
