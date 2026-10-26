@@ -12,6 +12,7 @@ This package provides a Swift implementation of IRIs (Internationalized Resource
 ## Features
 
 - ✅ IRI validation
+- ✅ IRI references (`IRI-reference = IRI / irelative-ref`, RFC 3987 §2.2): `RFC_3987.IRI.Reference` and `RFC_3987.isValidIRIReference(_:)`
 - ✅ IRI normalization (scheme/host lowercasing, default port removal, path normalization)
 - ✅ IRI to ASCII string conversion (percent-encoding)
 - ✅ Unicode character support
