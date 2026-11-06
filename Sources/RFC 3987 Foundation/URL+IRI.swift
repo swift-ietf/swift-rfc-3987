@@ -94,7 +94,8 @@ extension RFC_3987.IRI {
 
         let path = components.path
         if !path.isEmpty {
-            components.path = RFC_3987.removeDotSegments(from: path)
+            // URLComponents.path is percent-decoded, so it may hold what ipath refuses, such as a space.
+            components.path = RFC_3987.removeDotSegments(from: RFC_3987.IRI.Path(__unchecked: (), value: path)).value
         }
 
         guard let normalizedURL = components.url else {

@@ -6,6 +6,8 @@ extension RFC_3987.IRI {
 
         case invalidIRI(String)
 
+        case invalidPath(String)
+
         case invalidURI(String)
 
         case conversionFailed(String)
@@ -20,6 +22,9 @@ extension RFC_3987.IRI.Error: CustomStringConvertible {
 
         case .invalidIRI(let value):
             return "Invalid IRI: '\(value)'"
+
+        case .invalidPath(let value):
+            return "Invalid IRI path: '\(value)'"
 
         case .invalidURI(let value):
             return "Invalid URI: '\(value)'"
