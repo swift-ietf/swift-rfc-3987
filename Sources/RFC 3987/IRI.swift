@@ -103,6 +103,8 @@ extension RFC_3987.IRI {
 
 extension RFC_3987 {
 
+    // swift-linter:disable:next raw concept
+    // REASON: an IRI path may hold non-ASCII, which RFC_3986.URI.Path refuses, and RFC 3987 has no path type of its own
     public static func removeDotSegments(from path: String) -> String {
         var input = path
         var output = ""
