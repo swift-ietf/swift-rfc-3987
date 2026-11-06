@@ -1,14 +1,16 @@
 import RFC_3987
 import Testing
 
-extension RFC_3987.IRI.Reference {
+enum `RFC_3987.IRI.Reference Tests` {}
+
+extension `RFC_3987.IRI.Reference Tests` {
     @Suite struct Test {
         @Suite struct Unit {}
         @Suite struct `Edge Case` {}
     }
 }
 
-extension RFC_3987.IRI.Reference.Test.Unit {
+extension `RFC_3987.IRI.Reference Tests`.Test.Unit {
 
     @Test(arguments: [
         "https://example.com/寿司?q=1#f",
@@ -35,7 +37,7 @@ extension RFC_3987.IRI.Reference.Test.Unit {
     }
 }
 
-extension RFC_3987.IRI.Reference.Test.`Edge Case` {
+extension `RFC_3987.IRI.Reference Tests`.Test.`Edge Case` {
 
     @Test
     func `a colon in the first segment makes it an absolute IRI with a scheme`() {

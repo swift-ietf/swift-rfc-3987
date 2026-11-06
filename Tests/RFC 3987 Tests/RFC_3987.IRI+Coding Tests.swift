@@ -3,14 +3,16 @@ import Testing
 
 @testable import RFC_3987
 
-extension RFC_3987.IRI {
+enum `RFC_3987.IRI Tests` {}
+
+extension `RFC_3987.IRI Tests` {
     @Suite struct Coding {
         @Suite struct Unit {}
         @Suite struct `Edge Case` {}
     }
 }
 
-extension RFC_3987.IRI.Coding.Unit {
+extension `RFC_3987.IRI Tests`.Coding.Unit {
     @Test
     func `round trips through JSON`() throws {
         let original = RFC_3987.IRI("https://example.com/寿司")
@@ -28,7 +30,7 @@ extension RFC_3987.IRI.Coding.Unit {
     }
 }
 
-extension RFC_3987.IRI.Coding.`Edge Case` {
+extension `RFC_3987.IRI Tests`.Coding.`Edge Case` {
     @Test
     func `decoding an empty string surfaces the specific empty-IRI reason`() {
         let data = Data("\"\"".utf8)

@@ -2,14 +2,14 @@ import Testing
 
 @testable import RFC_3987
 
-extension RFC_3987.IRI {
+extension `RFC_3987.IRI Tests` {
     @Suite struct `Strict Validation` {
         @Suite struct Unit {}
         @Suite struct `Edge Case` {}
     }
 }
 
-extension RFC_3987.IRI.`Strict Validation`.Unit {
+extension `RFC_3987.IRI Tests`.`Strict Validation`.Unit {
     @Test
     func `authority with userinfo port query and fragment passes strict mode`() {
         #expect(
@@ -49,7 +49,7 @@ extension RFC_3987.IRI.`Strict Validation`.Unit {
     }
 }
 
-extension RFC_3987.IRI.`Strict Validation`.`Edge Case` {
+extension `RFC_3987.IRI Tests`.`Strict Validation`.`Edge Case` {
     @Test
     func `unescaped backslash is rejected by strict mode`() {
         #expect(!RFC_3987.isValidIRI("https://example.com/path\\backslash", mode: .strict))
