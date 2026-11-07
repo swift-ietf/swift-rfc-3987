@@ -94,11 +94,6 @@ extension RFC_3987.IRI: ASCII.Parseable {
 }
 
 extension RFC_3987.IRI {
-
-    public protocol Representable {
-
-        var iri: RFC_3987.IRI { get }
-    }
 }
 
 extension RFC_3987 {
