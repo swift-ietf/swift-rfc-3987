@@ -1,5 +1,5 @@
-public import ASCII
-public import Binary
+import ASCII
+import Binary
 
 
 extension RFC_3987.IRI {
