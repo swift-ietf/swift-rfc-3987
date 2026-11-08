@@ -1,7 +1,6 @@
 import ASCII
 import Binary
 
-
 extension RFC_3987.IRI {
     public protocol Representable {
 
