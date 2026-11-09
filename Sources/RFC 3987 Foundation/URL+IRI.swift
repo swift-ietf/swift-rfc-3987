@@ -120,54 +120,6 @@ extension URL: RFC_3987.IRI.Representable {
 
 extension RFC_3987 {
 
-    public static func isValidIRIWithFoundation(
-        _ string: String,
-        mode: ValidationMode = .lenient
-    ) -> Bool {
-
-        guard !string.isEmpty else { return false }
-
-        guard let url = URL(string: string) else { return false }
-
-        guard let scheme = url.scheme else { return false }
-
-        if mode == .strict {
-            return validateStrictWithFoundation(string: string, url: url, scheme: scheme)
-        }
-
-        return true
-    }
-
-    private static func validateStrictWithFoundation(
-        string: String,
-        url: URL,
-        scheme: String
-    ) -> Bool {
-
-        let schemePattern = "^[a-zA-Z][a-zA-Z0-9+.-]*$"
-        guard scheme.range(of: schemePattern, options: .regularExpression) != nil else {
-            return false
-        }
-
-        let controlCharacterRange = CharacterSet.controlCharacters
-        if string.rangeOfCharacter(from: controlCharacterRange) != nil {
-            return false
-        }
-
-        if string.contains(" ") {
-            return false
-        }
-
-        if let fragment = url.fragment {
-
-            if fragment.isEmpty {
-                return false
-            }
-        }
-
-        return true
-    }
-
     public static func isValidHTTP(_ iri: some IRI.Representable) -> Bool {
         guard let url = URL(string: iri.iriString) else { return false }
         let scheme = url.scheme?.lowercased()
