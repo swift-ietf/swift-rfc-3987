@@ -61,50 +61,67 @@ extension RFC_3987.IRI {
     }
 
     public func normalized() -> RFC_3987.IRI {
-        guard let url = URL(string: value) else {
+        guard let colon = value.firstIndex(of: ":") else {
             return self
         }
+        let scheme = value[..<colon].lowercased()
+        var rest = Substring(value[value.index(after: colon)...])
+        var result = scheme + ":"
 
-        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            return self
-        }
+        let suffixStart = rest.firstIndex { $0 == "?" || $0 == "#" } ?? rest.endIndex
+        let suffix = rest[suffixStart...]
+        rest = rest[..<suffixStart]
 
-        if let scheme = components.scheme {
-            components.scheme = scheme.lowercased()
-        }
-        if let host = components.host {
-            components.host = host.lowercased()
-        }
-
-        if let scheme = components.scheme, let port = components.port {
-            let defaultPort =
-                (scheme == "http" && port == 80) || (scheme == "https" && port == 443)
-                || (scheme == "ftp" && port == 21)
-            if defaultPort {
-                components.port = nil
+        var path = rest
+        if rest.hasPrefix("//") {
+            let afterSlashes = rest.index(rest.startIndex, offsetBy: 2)
+            let authorityEnd = rest[afterSlashes...].firstIndex(of: "/") ?? rest.endIndex
+            result += "//" + Self.normalizedAuthority(rest[afterSlashes..<authorityEnd], scheme: scheme)
+            path = rest[authorityEnd...]
+            if path.isEmpty, scheme == "http" || scheme == "https" {
+                path = "/"
             }
         }
 
-        if let scheme = components.scheme,
-            ["http", "https"].contains(scheme),
-            components.path.isEmpty
-        {
-            components.path = "/"
+        if path.hasPrefix("/") {
+            result += RFC_3987.removeDotSegments(from: RFC_3987.IRI.Path(__unchecked: (), value: String(path))).value
+        } else {
+            result += path
+        }
+        result += suffix
+
+        return RFC_3987.IRI(__unchecked: (), value: result)
+    }
+
+    private static func normalizedAuthority(_ authority: Substring, scheme: String) -> String {
+        var userinfo = ""
+        var hostPort = authority
+        if let at = authority.lastIndex(of: "@") {
+            userinfo = String(authority[...at])
+            hostPort = authority[authority.index(after: at)...]
         }
 
-        let path = components.path
-        if !path.isEmpty {
-            components.path = RFC_3987.removeDotSegments(from: RFC_3987.IRI.Path(__unchecked: (), value: path)).value
+        var host = hostPort
+        var port: Substring = ""
+        let hostEnd = hostPort.hasPrefix("[") ? hostPort.firstIndex(of: "]") : hostPort.startIndex
+        if let hostEnd, let portColon = hostPort[hostEnd...].lastIndex(of: ":") {
+            host = hostPort[..<portColon]
+            port = hostPort[hostPort.index(after: portColon)...]
         }
 
-        guard let normalizedURL = components.url else {
-            return self
-        }
+        let defaultPort: Substring? =
+            switch scheme {
+            case "http": "80"
+            case "https": "443"
+            case "ftp": "21"
+            default: nil
+            }
 
-        return RFC_3987.IRI(
-            __unchecked: (),
-            value: normalizedURL.absoluteString
-        )
+        var result = userinfo + host.lowercased()
+        if !port.isEmpty, port != defaultPort {
+            result += ":" + port
+        }
+        return result
     }
 }
 

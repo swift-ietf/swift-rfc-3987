@@ -126,6 +126,30 @@ extension `IRI Tests` {
             #expect(normalized.value.contains("/b"))
             #expect(!normalized.value.contains("/a/"))
         }
+
+        @Test
+        func `Normalization keeps non-ASCII text unencoded`() {
+            let iri: RFC_3987.IRI = "HTTPS://例え.JP:443/寿司/./ネタ/../メニュー?q=鮪#章"
+            #expect(iri.normalized().value == "https://例え.jp/寿司/メニュー?q=鮪#章")
+        }
+
+        @Test
+        func `Normalization keeps IPv6 host and non-default port`() {
+            let iri: RFC_3987.IRI = "http://User@[2001:DB8::1]:8080/a/../b"
+            #expect(iri.normalized().value == "http://User@[2001:db8::1]:8080/b")
+        }
+
+        @Test
+        func `Normalization adds root path to empty HTTP path`() {
+            let iri: RFC_3987.IRI = "http://example.com:80?x=1"
+            #expect(iri.normalized().value == "http://example.com/?x=1")
+        }
+
+        @Test
+        func `Normalization leaves rootless path intact`() {
+            let iri: RFC_3987.IRI = "URN:isbn:0451450523"
+            #expect(iri.normalized().value == "urn:isbn:0451450523")
+        }
     }
 }
 
