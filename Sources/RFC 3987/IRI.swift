@@ -3,7 +3,7 @@ public import Binary
 
 extension RFC_3987 {
 
-    public struct IRI: Hashable, Sendable, Codable {
+    public struct IRI: Hashable, Sendable {
 
         public let value: String
 
@@ -27,26 +27,28 @@ extension RFC_3987 {
     }
 }
 
-extension RFC_3987.IRI {
+#if !hasFeature(Embedded)
+    extension RFC_3987.IRI: Codable {
 
-    public init(from decoder: any Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let string = try container.decode(String.self)
-        do {
-            try self.init(string)
-        } catch {
-            throw DecodingError.dataCorruptedError(
-                in: container,
-                debugDescription: error.description
-            )
+        public init(from decoder: any Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let string = try container.decode(String.self)
+            do {
+                try self.init(string)
+            } catch {
+                throw DecodingError.dataCorruptedError(
+                    in: container,
+                    debugDescription: error.description
+                )
+            }
+        }
+
+        public func encode(to encoder: any Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(value)
         }
     }
-
-    public func encode(to encoder: any Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(value)
-    }
-}
+#endif
 
 extension RFC_3987.IRI: Swift::RawRepresentable, ASCII.Serializable, Binary.Serializable {
 
