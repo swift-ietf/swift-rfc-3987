@@ -1,16 +1,16 @@
 import RFC_3987
 import Testing
 
-enum `RFC_3987.IRI.Reference Tests` {}
+enum `IETF.RFC.3987.IRI.Reference Tests` {}
 
-extension `RFC_3987.IRI.Reference Tests` {
+extension `IETF.RFC.3987.IRI.Reference Tests` {
     @Suite struct Test {
         @Suite struct Unit {}
         @Suite struct `Edge Case` {}
     }
 }
 
-extension `RFC_3987.IRI.Reference Tests`.Test.Unit {
+extension `IETF.RFC.3987.IRI.Reference Tests`.Test.Unit {
 
     @Test(arguments: [
         "https://example.com/寿司?q=1#f",
@@ -18,7 +18,7 @@ extension `RFC_3987.IRI.Reference Tests`.Test.Unit {
         "mailto:jane@example.com",
     ])
     func `an absolute IRI is an IRI reference`(text: String) throws {
-        #expect(try RFC_3987.IRI.Reference(text).value == text)
+        #expect(try IETF.RFC.`3987`.IRI.Reference(text).value == text)
     }
 
     @Test(arguments: [
@@ -33,37 +33,37 @@ extension `RFC_3987.IRI.Reference Tests`.Test.Unit {
         "%E5%AF%BF%E5%8F%B8",
     ])
     func `a relative reference is an IRI reference`(text: String) throws {
-        #expect(try RFC_3987.IRI.Reference(text).value == text)
+        #expect(try IETF.RFC.`3987`.IRI.Reference(text).value == text)
     }
 }
 
-extension `RFC_3987.IRI.Reference Tests`.Test.`Edge Case` {
+extension `IETF.RFC.3987.IRI.Reference Tests`.Test.`Edge Case` {
 
     @Test
     func `a colon in the first segment makes it an absolute IRI with a scheme`() {
-        #expect(throws: RFC_3987.IRI.Error.invalidIRI("1a:b")) { try RFC_3987.IRI.Reference("1a:b") }
-        #expect(RFC_3987.isValidIRIReference("a:b"))
+        #expect(throws: IETF.RFC.`3987`.IRI.Error.invalidIRI("1a:b")) { try IETF.RFC.`3987`.IRI.Reference("1a:b") }
+        #expect(IETF.RFC.`3987`.isValidIRIReference("a:b"))
     }
 
     @Test
     func `white space and controls are refused`() {
-        #expect(!RFC_3987.isValidIRIReference("docs/a b"))
-        #expect(!RFC_3987.isValidIRIReference("docs/a\u{7}b"))
+        #expect(!IETF.RFC.`3987`.isValidIRIReference("docs/a b"))
+        #expect(!IETF.RFC.`3987`.isValidIRIReference("docs/a\u{7}b"))
     }
 
     @Test
     func `malformed percent encoding is refused`() {
-        #expect(!RFC_3987.isValidIRIReference("docs/%zz"))
+        #expect(!IETF.RFC.`3987`.isValidIRIReference("docs/%zz"))
     }
 
     @Test
     func `a second number sign is refused`() {
-        #expect(!RFC_3987.isValidIRIReference("#a#b"))
+        #expect(!IETF.RFC.`3987`.isValidIRIReference("#a#b"))
     }
 
     @Test
     func `private-use characters are allowed in the query only`() {
-        #expect(RFC_3987.isValidIRIReference("?\u{E000}"))
-        #expect(!RFC_3987.isValidIRIReference("/\u{E000}"))
+        #expect(IETF.RFC.`3987`.isValidIRIReference("?\u{E000}"))
+        #expect(!IETF.RFC.`3987`.isValidIRIReference("/\u{E000}"))
     }
 }

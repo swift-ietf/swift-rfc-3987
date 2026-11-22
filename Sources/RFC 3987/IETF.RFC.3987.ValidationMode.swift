@@ -1,4 +1,4 @@
-extension RFC_3987 {
+extension IETF.RFC.`3987` {
 
     public enum ValidationMode: Sendable {
 

@@ -12,44 +12,44 @@ extension `IRI Tests` {
 
         @Test
         func `Valid HTTP IRI`() {
-            #expect(RFC_3987.isValidIRI("https://example.com"))
-            #expect(RFC_3987.isValidIRI("http://example.com/path"))
-            #expect(RFC_3987.isValidIRI("https://example.com:8080/path?query=value"))
+            #expect(IETF.RFC.`3987`.isValidIRI("https://example.com"))
+            #expect(IETF.RFC.`3987`.isValidIRI("http://example.com/path"))
+            #expect(IETF.RFC.`3987`.isValidIRI("https://example.com:8080/path?query=value"))
         }
 
         @Test
         func `Valid HTTPS IRI`() {
-            #expect(RFC_3987.isValidHTTP("https://example.com"))
-            #expect(RFC_3987.isValidHTTP("http://example.com"))
-            #expect(!RFC_3987.isValidHTTP("ftp://example.com"))
+            #expect(IETF.RFC.`3987`.isValidHTTP("https://example.com"))
+            #expect(IETF.RFC.`3987`.isValidHTTP("http://example.com"))
+            #expect(!IETF.RFC.`3987`.isValidHTTP("ftp://example.com"))
         }
 
         @Test
         func `Valid URN IRI`() {
-            #expect(RFC_3987.isValidIRI("urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6"))
-            #expect(RFC_3987.isValidIRI("urn:isbn:0451450523"))
+            #expect(IETF.RFC.`3987`.isValidIRI("urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6"))
+            #expect(IETF.RFC.`3987`.isValidIRI("urn:isbn:0451450523"))
         }
 
         @Test
         func `Valid mailto IRI`() {
-            #expect(RFC_3987.isValidIRI("mailto:user@example.com"))
+            #expect(IETF.RFC.`3987`.isValidIRI("mailto:user@example.com"))
         }
 
         @Test
         func `Invalid IRI - no scheme`() {
-            #expect(!RFC_3987.isValidIRI("example.com"))
-            #expect(!RFC_3987.isValidIRI("/path/to/resource"))
+            #expect(!IETF.RFC.`3987`.isValidIRI("example.com"))
+            #expect(!IETF.RFC.`3987`.isValidIRI("/path/to/resource"))
         }
 
         @Test
         func `Invalid IRI - empty string`() {
-            #expect(!RFC_3987.isValidIRI(""))
+            #expect(!IETF.RFC.`3987`.isValidIRI(""))
         }
 
         @Test
         func `Unicode characters in IRI`() {
-            #expect(RFC_3987.isValidIRI("https://example.com/寿司"))
-            #expect(RFC_3987.isValidIRI("https://例え.jp"))
+            #expect(IETF.RFC.`3987`.isValidIRI("https://example.com/寿司"))
+            #expect(IETF.RFC.`3987`.isValidIRI("https://例え.jp"))
         }
     }
 }
@@ -60,7 +60,7 @@ extension `IRI Tests` {
 
         @Test
         func `Create IRI from string literal`() {
-            let iri: RFC_3987.IRI = "https://example.com"
+            let iri: IETF.RFC.`3987`.IRI = "https://example.com"
             #expect(iri.value == "https://example.com")
         }
     }
@@ -72,56 +72,56 @@ extension `IRI Tests` {
 
         @Test
         func `Normalize scheme to lowercase`() {
-            let iri: RFC_3987.IRI = "HTTPS://example.com"
+            let iri: IETF.RFC.`3987`.IRI = "HTTPS://example.com"
             let normalized = iri.normalized()
             #expect(normalized.value.hasPrefix("https://"))
         }
 
         @Test
         func `Normalize host to lowercase`() {
-            let iri: RFC_3987.IRI = "https://EXAMPLE.COM"
+            let iri: IETF.RFC.`3987`.IRI = "https://EXAMPLE.COM"
             let normalized = iri.normalized()
             #expect(normalized.value.contains("example.com"))
         }
 
         @Test
         func `Remove default HTTP port`() {
-            let iri: RFC_3987.IRI = "http://example.com:80/path"
+            let iri: IETF.RFC.`3987`.IRI = "http://example.com:80/path"
             let normalized = iri.normalized()
             #expect(!normalized.value.contains(":80"))
         }
 
         @Test
         func `Remove default HTTPS port`() {
-            let iri: RFC_3987.IRI = "https://example.com:443/path"
+            let iri: IETF.RFC.`3987`.IRI = "https://example.com:443/path"
             let normalized = iri.normalized()
             #expect(!normalized.value.contains(":443"))
         }
 
         @Test
         func `Keep non-default port`() {
-            let iri: RFC_3987.IRI = "https://example.com:8080/path"
+            let iri: IETF.RFC.`3987`.IRI = "https://example.com:8080/path"
             let normalized = iri.normalized()
             #expect(normalized.value.contains(":8080"))
         }
 
         @Test
         func `Remove dot segments from path`() {
-            let iri: RFC_3987.IRI = "https://example.com/a/b/c/./../../g"
+            let iri: IETF.RFC.`3987`.IRI = "https://example.com/a/b/c/./../../g"
             let normalized = iri.normalized()
             #expect(normalized.value.contains("/a/g"))
         }
 
         @Test
         func `Remove leading dot segment`() {
-            let iri: RFC_3987.IRI = "https://example.com/./a/b"
+            let iri: IETF.RFC.`3987`.IRI = "https://example.com/./a/b"
             let normalized = iri.normalized()
             #expect(normalized.value.contains("/a/b"))
         }
 
         @Test
         func `Remove double dot segments`() {
-            let iri: RFC_3987.IRI = "https://example.com/a/../b"
+            let iri: IETF.RFC.`3987`.IRI = "https://example.com/a/../b"
             let normalized = iri.normalized()
             #expect(normalized.value.contains("/b"))
             #expect(!normalized.value.contains("/a/"))
@@ -129,25 +129,25 @@ extension `IRI Tests` {
 
         @Test
         func `Normalization keeps non-ASCII text unencoded`() {
-            let iri: RFC_3987.IRI = "HTTPS://例え.JP:443/寿司/./ネタ/../メニュー?q=鮪#章"
+            let iri: IETF.RFC.`3987`.IRI = "HTTPS://例え.JP:443/寿司/./ネタ/../メニュー?q=鮪#章"
             #expect(iri.normalized().value == "https://例え.jp/寿司/メニュー?q=鮪#章")
         }
 
         @Test
         func `Normalization keeps IPv6 host and non-default port`() {
-            let iri: RFC_3987.IRI = "http://User@[2001:DB8::1]:8080/a/../b"
+            let iri: IETF.RFC.`3987`.IRI = "http://User@[2001:DB8::1]:8080/a/../b"
             #expect(iri.normalized().value == "http://User@[2001:db8::1]:8080/b")
         }
 
         @Test
         func `Normalization adds root path to empty HTTP path`() {
-            let iri: RFC_3987.IRI = "http://example.com:80?x=1"
+            let iri: IETF.RFC.`3987`.IRI = "http://example.com:80?x=1"
             #expect(iri.normalized().value == "http://example.com/?x=1")
         }
 
         @Test
         func `Normalization leaves rootless path intact`() {
-            let iri: RFC_3987.IRI = "URN:isbn:0451450523"
+            let iri: IETF.RFC.`3987`.IRI = "URN:isbn:0451450523"
             #expect(iri.normalized().value == "urn:isbn:0451450523")
         }
     }
@@ -159,14 +159,14 @@ extension `IRI Tests` {
 
         @Test
         func `Convert simple IRI to URI`() {
-            let iri: RFC_3987.IRI = "https://example.com/path"
+            let iri: IETF.RFC.`3987`.IRI = "https://example.com/path"
             let uri = iri.uriString
             #expect(uri == "https://example.com/path")
         }
 
         @Test
         func `Convert IRI with spaces`() {
-            let iri: RFC_3987.IRI = "https://example.com/hello%20world"
+            let iri: IETF.RFC.`3987`.IRI = "https://example.com/hello%20world"
             let uri = iri.uriString
             #expect(uri.contains("%20"))
         }
@@ -180,7 +180,7 @@ extension `IRI Tests` {
         @Test
         func `URL conforms to IRI.Representable`() {
             let url = URL(string: "https://example.com/path")!
-            let iri: any RFC_3987.IRI.Representable = url
+            let iri: any IETF.RFC.`3987`.IRI.Representable = url
             #expect(iri.iriString == "https://example.com/path")
         }
 
@@ -196,8 +196,8 @@ extension `IRI Tests` {
             let httpURL = URL(string: "https://example.com")!
             let ftpURL = URL(string: "ftp://example.com")!
 
-            #expect(RFC_3987.isValidHTTP(httpURL))
-            #expect(!RFC_3987.isValidHTTP(ftpURL))
+            #expect(IETF.RFC.`3987`.isValidHTTP(httpURL))
+            #expect(!IETF.RFC.`3987`.isValidHTTP(ftpURL))
         }
     }
 }

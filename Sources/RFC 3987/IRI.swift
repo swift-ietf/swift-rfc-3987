@@ -1,7 +1,7 @@
 public import ASCII
 public import Binary
 
-extension RFC_3987 {
+extension IETF.RFC.`3987` {
 
     public struct IRI: Hashable, Sendable {
 
@@ -14,12 +14,12 @@ extension RFC_3987 {
 
         public init(
             _ value: String,
-            mode: RFC_3987.ValidationMode = .lenient
+            mode: IETF.RFC.`3987`.ValidationMode = .lenient
         ) throws(Error) {
             guard !value.isEmpty else {
                 throw Error.empty
             }
-            guard RFC_3987.isValidIRI(value, mode: mode) else {
+            guard IETF.RFC.`3987`.isValidIRI(value, mode: mode) else {
                 throw Error.invalidIRI(value)
             }
             self.init(__unchecked: (), value: value)
@@ -28,7 +28,7 @@ extension RFC_3987 {
 }
 
 #if !hasFeature(Embedded)
-    extension RFC_3987.IRI: Codable {
+    extension IETF.RFC.`3987`.IRI: Codable {
 
         public init(from decoder: any Decoder) throws {
             let container = try decoder.singleValueContainer()
@@ -50,14 +50,14 @@ extension RFC_3987 {
     }
 #endif
 
-extension RFC_3987.IRI: Swift::RawRepresentable, ASCII.Serializable, Binary.Serializable {
+extension IETF.RFC.`3987`.IRI: Swift::RawRepresentable, ASCII.Serializable, Binary.Serializable {
 
     public var rawValue: String {
         value
     }
 
     public init?(rawValue: String) {
-        do throws(RFC_3987.IRI.Error) {
+        do throws(IETF.RFC.`3987`.IRI.Error) {
             try self.init(rawValue)
         } catch {
             return nil
@@ -81,7 +81,7 @@ extension RFC_3987.IRI: Swift::RawRepresentable, ASCII.Serializable, Binary.Seri
     }
 }
 
-extension RFC_3987.IRI: ASCII.Parseable {
+extension IETF.RFC.`3987`.IRI: ASCII.Parseable {
 
     public init<Bytes: Swift::Collection>(
         ascii bytes: Bytes
@@ -95,12 +95,12 @@ extension RFC_3987.IRI: ASCII.Parseable {
     }
 }
 
-extension RFC_3987.IRI {
+extension IETF.RFC.`3987`.IRI {
 }
 
-extension RFC_3987 {
+extension IETF.RFC.`3987` {
 
-    public static func removeDotSegments(from path: RFC_3987.IRI.Path) -> RFC_3987.IRI.Path {
+    public static func removeDotSegments(from path: IETF.RFC.`3987`.IRI.Path) -> IETF.RFC.`3987`.IRI.Path {
         var input = path.value
         var output = ""
 
@@ -149,37 +149,37 @@ extension RFC_3987 {
             }
         }
 
-        return RFC_3987.IRI.Path(__unchecked: (), value: output)
+        return IETF.RFC.`3987`.IRI.Path(__unchecked: (), value: output)
     }
 }
 
-extension RFC_3987.IRI.Representable {
+extension IETF.RFC.`3987`.IRI.Representable {
 
     public var iriString: String {
         iri.value
     }
 }
 
-extension RFC_3987.IRI: RFC_3987.IRI.Representable {
-    public var iri: RFC_3987.IRI {
+extension IETF.RFC.`3987`.IRI: IETF.RFC.`3987`.IRI.Representable {
+    public var iri: IETF.RFC.`3987`.IRI {
         self
     }
 }
 
-extension RFC_3987.IRI: ExpressibleByStringLiteral {
+extension IETF.RFC.`3987`.IRI: ExpressibleByStringLiteral {
 
     public init(stringLiteral value: String) {
         self.init(__unchecked: (), value: value)
     }
 }
 
-extension RFC_3987.IRI: CustomStringConvertible {
+extension IETF.RFC.`3987`.IRI: CustomStringConvertible {
     public var description: String {
         value
     }
 }
 
-extension RFC_3987.IRI: CustomDebugStringConvertible {
+extension IETF.RFC.`3987`.IRI: CustomDebugStringConvertible {
     public var debugDescription: String {
         "IRI(\"\(value)\")"
     }

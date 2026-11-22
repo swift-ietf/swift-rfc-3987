@@ -7,7 +7,7 @@ extension URL {
         case invalidIRI(String)
     }
 
-    public init(iri: RFC_3987.IRI) throws(IRIConversionError) {
+    public init(iri: IETF.RFC.`3987`.IRI) throws(IRIConversionError) {
 
         if let url = URL(string: iri.value) {
             self = url
@@ -42,7 +42,7 @@ extension URL.IRIConversionError {
     }
 }
 
-extension RFC_3987.IRI {
+extension IETF.RFC.`3987`.IRI {
 
     public var uriString: String {
 
@@ -60,7 +60,7 @@ extension RFC_3987.IRI {
         )
     }
 
-    public func normalized() -> RFC_3987.IRI {
+    public func normalized() -> IETF.RFC.`3987`.IRI {
         guard let colon = value.firstIndex(of: ":") else {
             return self
         }
@@ -84,13 +84,13 @@ extension RFC_3987.IRI {
         }
 
         if path.hasPrefix("/") {
-            result += RFC_3987.removeDotSegments(from: RFC_3987.IRI.Path(__unchecked: (), value: String(path))).value
+            result += IETF.RFC.`3987`.removeDotSegments(from: IETF.RFC.`3987`.IRI.Path(__unchecked: (), value: String(path))).value
         } else {
             result += path
         }
         result += suffix
 
-        return RFC_3987.IRI(__unchecked: (), value: result)
+        return IETF.RFC.`3987`.IRI(__unchecked: (), value: result)
     }
 
     private static func normalizedAuthority(_ authority: Substring, scheme: String) -> String {
@@ -125,17 +125,17 @@ extension RFC_3987.IRI {
     }
 }
 
-extension URL: RFC_3987.IRI.Representable {
+extension URL: IETF.RFC.`3987`.IRI.Representable {
 
-    public var iri: RFC_3987.IRI {
-        RFC_3987.IRI(
+    public var iri: IETF.RFC.`3987`.IRI {
+        IETF.RFC.`3987`.IRI(
             __unchecked: (),
             value: absoluteString
         )
     }
 }
 
-extension RFC_3987 {
+extension IETF.RFC.`3987` {
 
     public static func isValidHTTP(_ iri: some IRI.Representable) -> Bool {
         guard let url = URL(string: iri.iriString) else { return false }

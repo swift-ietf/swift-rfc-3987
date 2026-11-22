@@ -1,4 +1,4 @@
-extension RFC_3987.IRI {
+extension IETF.RFC.`3987`.IRI {
 
     public enum Error: Swift::Error, Sendable, Equatable {
 
@@ -14,7 +14,7 @@ extension RFC_3987.IRI {
     }
 }
 
-extension RFC_3987.IRI.Error: CustomStringConvertible {
+extension IETF.RFC.`3987`.IRI.Error: CustomStringConvertible {
     public var description: String {
         switch self {
         case .empty:

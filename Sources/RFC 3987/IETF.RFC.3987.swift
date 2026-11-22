@@ -1,8 +1,11 @@
+public import IETF_RFC
 import ASCII
 
-public enum RFC_3987 {}
+extension IETF.RFC {
+    public enum `3987` {}
+}
 
-extension RFC_3987 {
+extension IETF.RFC.`3987` {
 
     public static func isValidIRI(_ string: String, mode: ValidationMode = .lenient) -> Bool {
 

@@ -22,6 +22,7 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(url: "https://github.com/swift-ietf/swift-rfc.git", branch: "main"),
         .package(
             url: "https://github.com/swift-atoms/swift-binary.git",
             branch: "main",
@@ -33,6 +34,7 @@ let package = Package(
         .target(
             name: "RFC 3987",
             dependencies: [
+                .product(name: "IETF RFC", package: "swift-rfc"),
                 .product(name: "Binary", package: "swift-binary"),
                 .product(name: "ASCII", package: "swift-ascii"),
             ]

@@ -1,4 +1,4 @@
-extension RFC_3987 {
+extension IETF.RFC.`3987` {
 
     public static func isValidIRIReference(_ string: String) -> Bool {
         let segmentEnd = string.firstIndex(where: { $0 == "/" || $0 == "?" || $0 == "#" }) ?? string.endIndex

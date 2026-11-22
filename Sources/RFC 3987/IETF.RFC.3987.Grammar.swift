@@ -1,11 +1,11 @@
 import ASCII
 
-extension RFC_3987 {
+extension IETF.RFC.`3987` {
     enum Grammar {
     }
 }
 
-extension RFC_3987.Grammar {
+extension IETF.RFC.`3987`.Grammar {
     static func isUCSChar(_ scalar: Unicode.Scalar) -> Bool {
         switch scalar.value {
         case 0xA0...0xD7FF,

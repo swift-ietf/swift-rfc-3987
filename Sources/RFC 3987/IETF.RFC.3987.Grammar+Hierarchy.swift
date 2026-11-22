@@ -1,4 +1,4 @@
-extension RFC_3987.Grammar {
+extension IETF.RFC.`3987`.Grammar {
 
     static func isValidHierarchy(_ text: some StringProtocol) -> Bool {
         for scalar in text.unicodeScalars {
